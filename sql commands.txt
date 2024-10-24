@@ -39,3 +39,7 @@ dep_id integer foreign key (dep_id) references department(dep_id));
 
 //DEPARTMENT TABLE
 insert into department values(1001,'CF','TVM');
+update department set dep_name = 'FINANCE', dep_location = 'SYDNEY' where dep_id=1001
+update department set dep_name = 'AUDIT', dep_location = 'MELBOURNE' where dep_id=2001
+update department set dep_name = 'MARKETING', dep_location = 'PERTH' where dep_id=3001
+insert into department values(4001, 'PRODUCTION', 'BRISBANE')
