@@ -350,4 +350,173 @@ emp_id	emp_name	job_name	manager_id	hire_date	salary		commission	dep_id
 	max
 	6000.00
 -----------------------------------------------------------------------------------------------------
+19. From the table, write a SQL query to find the average salary and average total remuneration (salary and commission) for each type of job. Return name, average salary
+ and average total remuneration. (Using GROUP BY)
 
+
+		select job_name,avg(salary)as 'average alary',avg(salary+commission) as 'average remuneration' from employees group by job_name; 
+
+		Output:
+
+		job_name	average alary	average remuneration
+		ANALYST		3100.000000	NULL
+		CLERK		1047.500000	NULL
+		MANAGER		2752.333333	NULL
+		PRESIDENT	6000.000000	NULL
+		SALESMAN	1500.000000	2125.000000
+
+------------------------------------------------------------------------------------------------
+
+ 20. From the following table, write a SQL query to find those employees who work in the department ID 1001 or 2001. Return employee ID, employee name, department ID,
+ department location, and department name.(Using IN clause)
+
+	select emp_id,emp_name,e.dep_id,dep_name ,dep_location from employees e,department d where e.dep_id=d.dep_id and e.dep_id in (1001,2001);
+
+	Output:
+
+	emp_id	emp_name	dep_id	dep_name	dep_location
+	63679	SANDRNE		2001	AUDIT		MELBOURNE
+	65646	JONAS		2001	AUDIT		MELBOURNE
+	67832	CLARE		1001	FINANCE		SYDNEY
+	67858	SCARLET		2001	AUDIT		MELBOURNE
+	68319	KAYLING		1001	FINANCE		SYDNEY
+	68736	ANDRES		2001	AUDIT		MELBOURNE
+	69062	FRANK		1001	FINANCE		SYDNEY
+	69324	MARKER		1001	FINANCE		SYDNEY
+
+--------------------------------------------------------------------------------------------------
+21. From the table, write a SQL query to list the managers and number of employees work under them. Sort the result set in ascending order on manager. Return manager ID and
+number of employees under them.(Using GROUP BY & ORDER BY
+
+		select manager_id,count(manager_id)as 'count' from employees group by(manager_id);
+
+		Output:
+		
+		manager_id	count
+		NULL		0
+		65646		2
+		66928		5
+		67832		1
+		67858		1
+		68319		3
+		69062		1
+
+-----------------------------------------------------------------------------------------------
+
+22. From the table, write a SQL query to find those departments where at least two employees work. Return department id, number of employees.(GROUP BY & HAVING)
+			
+	select dep_id,count(dep_id)as 'count' from employees group by(dep_id) having count(dep_id)>2;
+
+	Output:
+
+	dep_id	count
+	1001	4
+	2001	4
+	3001	6
+
+-----------------------------------------------------------------------------------------
+
+23. From the table, write a SQL query to find those employees whose names contain the character set 'AR' together. Return complete information about the employees. (using ‘like’)
+
+	select * from employees where emp_name like '%AR%';
+
+	Output:
+	emp_id	emp_name	job_name	manager_id	hire_date	salary		commission	dep_id
+	67832	CLARE		MANAGER		68319		1991-06-09	2550.00		NULL		1001
+	67858	SCARLET		ANALYST		65646		1997-04-19	3100.00		NULL		2001
+	69324	MARKER		CLERK		67832		1992-01-23	1040.00		NULL		1001
+
+----------------------------------------------------------------------------------------
+
+24. Add a column for “Gender” in the employee table and update each row accordingly
+
+	alter table emloyees add gender varchar(10);
+	update employees  set  gender ='Male' where emp_name not in ('clare','scarlet');
+	update employees  set  gender ='Male' where emp_name  in ('clare','scarlet');
+
+	Output:
+
+	emp_id	emp_name	job_name	manager_id	hire_date	salary	commission	dep_id	gender
+	63679	SANDRNE		CLERK		69062		1990-12-18	900.00	NULL		2001	Male
+	64989	ADELYN		SALESMAN	66928		1991-02-20	1700.00	400.00		3001	Male
+	65271	WADE		SALESMAN	66928		1991-02-22	1350.00	600.00		3001	Male
+	65646	JONAS		MANAGER		68319		1991-04-02	2957.00	NULL		2001	Male
+	66564	MADDEN		SALESMAN	66928		1991-09-28	1350.00	1500.00		3001	Male
+	66928	BLAZE		MANAGER		68319		1991-05-01	2750.00	NULL		3001	Male
+	67832	CLARE		MANAGER		68319		1991-06-09	2550.00	NULL		1001	Female
+	67858	SCARLET		ANALYST		65646		1997-04-19	3100.00	NULL		2001	Female
+	68319	KAYLING		PRESIDENT	NULL		1991-11-18	6000.00	NULL		1001	Male
+	68454	TUCKER		SALESMAN	66928		1991-09-08	1600.00	0.00		3001	Male
+	68736	ANDRES		CLERK		67858		1997-05-23	1200.00	NULL		2001	Male
+	69000	JULIUS		CLERK		66928		1991-12-03	1050.00	NULL		3001	Male
+	69062	FRANK		ANALYST		65646		1991-12-03	3100.00	NULL		1001	Male	
+	69324	MARKER		CLERK		67832		1992-01-23	1040.00	NULL		1001	Male
+
+-------------------------------------------------------------------------------------------------
+
+25. From the above table we need to retrieve all employees except ‘Manager’ & ’President’ Job name.
+
+	select * from employees where job_name not in ('president','manager')
+
+	Output:
+	
+	emp_id	emp_name	job_name	manager_id	hire_date	salary	commission	dep_id	gender
+	63679	SANDRNE		CLERK		69062		1990-12-18	900.00	NULL		2001	Male
+	64989	ADELYN		SALESMAN	66928		1991-02-20	1700.00	400.00		3001	Male
+	65271	WADE		SALESMAN	66928		1991-02-22	1350.00	600.00		3001	Male
+	66564	MADDEN		SALESMAN	66928		1991-09-28	1350.00	1500.00		3001	Male	
+	67858	SCARLET		ANALYST		65646		1997-04-19	3100.00	NULL		2001	Female
+	68454	TUCKER		SALESMAN	66928		1991-09-08	1600.00	0.00		3001	Male
+	68736	ANDRES		CLERK		67858		1997-05-23	1200.00	NULL		2001	Male
+	69000	JULIUS		CLERK		66928		1991-12-03	1050.00	NULL		3001	Male
+	69062	FRANK		ANALYST		65646		1991-12-03	3100.00	NULL		1001	Male
+	69324	MARKER		CLERK		67832		1992-01-23	1040.00	NULL		1001	Male
+
+-----------------------------------------------------------------------------------------------------------
+
+26. From the above table we need to display ‘Management Level’ - labelname for ‘President’,’Manager’,’Analyst’ jobs and ‘Employee Level’ - label name for ‘Salesman’,’Clerk’ job
+names.
+
+	select emp_name,case when job_name in ('president','manager','analyst') then 'Management Level' else 'Employee Level' end as 'Level' from employees
+
+	Output:
+	
+	emp_name	Level
+	SANDRNE		Employee Level
+	ADELYN		Employee Level
+	WADE		Employee Level
+	JONAS		Management Level
+	MADDEN		Employee Level
+	BLAZE		Management Level
+	CLARE		Management Level
+	SCARLET		Management Level
+	KAYLING		Management Level
+	TUCKER		Employee Level
+	ANDRES		Employee Level	
+	JULIUS		Employee Level
+	FRANK		Management Level
+	MARKER		Employee Level
+
+--------------------------------------------------------------------------------------------------
+
+27. Update commission field to 650.00 for job name titled as “analyst” in “employee” table using “Exist” clauses
+
+	update  employees set commission=650.00 where exists(select emp_id from employees table2 where employees.job_name='analyst');
+	
+	Output:
+	
+	emp_id	emp_name	job_name	manager_id	hire_date	salary		commission	dep_id	gender
+	63679	SANDRNE		CLERK		69062		1990-12-18	900.00		NULL		2001	Male
+	64989	ADELYN		SALESMAN	66928		1991-02-20	1700.00		NULL		3001	Male
+	65271	WADE		SALESMAN	66928		1991-02-22	1350.00		NULL		3001	Male
+	65646	JONAS		MANAGER		68319		1991-04-02	2957.00		NULL		2001	Male
+	66564	MADDEN		SALESMAN	66928		1991-09-28	1350.00		NULL		3001	Male
+	66928	BLAZE		MANAGER		68319		1991-05-01	2750.00		NULL		3001	Male
+	67832	CLARE		MANAGER		68319		1991-06-09	2550.00		NULL		1001	Female
+	67858	SCARLET		ANALYST		65646		1997-04-19	3100.00		650.00		2001	Female
+	68319	KAYLING		PRESIDENT	NULL		1991-11-18	6000.00		NULL		1001	Male
+	68454	TUCKER		SALESMAN	66928		1991-09-08	1600.00		NULL		3001	Male
+	68736	ANDRES		CLERK		67858		1997-05-23	1200.00		NULL		2001	Male
+	69000	JULIUS		CLERK		66928		1991-12-03	1050.00		NULL		3001	Male
+	69062	FRANK		ANALYST		65646		1991-12-03	3100.00		650.00		1001	Male
+	69324	MARKER		CLERK		67832		1992-01-23	1040.00		NULL		1001	Male
